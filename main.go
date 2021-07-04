@@ -10,7 +10,7 @@ import (
 )
 
 func buildIndexHandler(paths []string) func(http.ResponseWriter, *http.Request) {
-	index_tmpl := template.Must(template.New("index").Parse(
+	index_tmpl := template.Must(template.New("index").Funcs(template.FuncMap{"makeRouteName": makeRouteName}).Parse(
 		`
 <html>
 	<head>
@@ -19,7 +19,7 @@ func buildIndexHandler(paths []string) func(http.ResponseWriter, *http.Request) 
 	</head>
 	<body>
 		<h2>Folders</h2>
-		{{range $index, $element := .}}<a href="{{$element}}">{{$element}}</a></br>{{end}}
+		{{range $index, $element := .}}<a href="{{makeRouteName $element}}">{{$element}}</a></br>{{end}}
 	</body>
 </html>
 `,
